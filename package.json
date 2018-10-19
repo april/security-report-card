@@ -1,0 +1,31 @@
+{
+  "name": "security-report-card",
+  "version": "1.0.2",
+  "description": "Uses the Mozilla Observatory to scan sites and determine how secure they are.",
+  "license": "MPL-2.0",
+  "scripts": {
+    "compile": "webpack --config=config/webpack.config.js",
+    "package": "web-ext build -s build -a dist --overwrite-dest",
+    "build": "npm run compile && npm run package",
+    "watch": "NODE_ENV=development webpack --config=config/webpack.config.js --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/april/security-report-card"
+  },
+  "bugs": {
+    "url": "https://github.com/april/security-report-card/issues"
+  },
+  "homepage": "https://github.com/april/security-report-card#readme",
+  "dependencies": {
+    "license-webpack-plugin": "^1.3.1"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.5",
+    "babel-preset-env": "^1.7.0",
+    "copy-webpack-plugin": "^4.5.2",
+    "webpack": "^4.16.1",
+    "webpack-cli": "^3.1.0"
+  }
+}

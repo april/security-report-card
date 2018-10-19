@@ -1,0 +1,30 @@
+{
+  "name": "Security Report Card",
+  "description": "Uses the Mozilla Observatory to scan sites and determine how secure they are.",
+  "manifest_version": 2,
+  "version": "1.0.2",
+  "homepage_url": "https://github.com/april/security-report-card",
+  "icons": {
+    "48": "icons/security-report-card.svg"
+  },
+
+  "permissions": [
+    "tabs", "webRequest", "http://*/*", "https://*/*"
+  ],
+
+  "background": {
+    "scripts": ["background.js"]
+  },
+
+  "browser_action": {
+    "browser_style": true,
+    "default_icon": "icons/security-report-card.svg",
+    "default_title": "Observatory Scan Results"
+  },
+
+  "applications": {
+    "gecko": {
+      "strict_min_version": "57.0a1"
+    }
+  }
+}
