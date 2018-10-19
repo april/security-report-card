@@ -1,3 +1,9 @@
+let FF_MAJOR_VERSION;
+browser.runtime.getBrowserInfo().then((info) => {
+  FF_MAJOR_VERSION = parseInt(info.version.split('.')[0]);
+});
+
+
 // this updates the icon to show the letter grade and score, as well as
 // sets the text that you get on hovering to the full Observatory result
 // object
@@ -26,7 +32,9 @@ export const update = async (results, tabId) => {
   };
 
   // update the badge and its color, reset the spinner, and add the hover text
-  await Promise.all([
+  // unfortunately, FF 62 doesn't support setting the text color, so we have to
+  // disable it for <63
+  let funcs = [
     browser.browserAction.setBadgeBackgroundColor({
       color: colors[results.grade[0]].background,
       tabId: tabId,
@@ -34,11 +42,6 @@ export const update = async (results, tabId) => {
 
     browser.browserAction.setBadgeText({
       text: results.grade,
-      tabId: tabId,
-    }),
-
-    browser.browserAction.setBadgeTextColor({
-      color: colors[results.grade[0]].color,
       tabId: tabId,
     }),
 
@@ -51,5 +54,17 @@ export const update = async (results, tabId) => {
       title: `The full results are:\n\n${JSON.stringify(results, null, 2)}`,
       tabId: tabId,
     })
-  ]);
+  ];
+
+  // we can change the badge color if on FF63
+  if (FF_MAJOR_VERSION >= 63) {
+    funcs.push(
+      browser.browserAction.setBadgeTextColor({
+        color: colors[results.grade[0]].color,
+        tabId: tabId,
+      })
+    )
+  }
+
+  await Promise.all(funcs);
 }

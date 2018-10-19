@@ -13,7 +13,6 @@ const results = {};
 
 
 export const open = async (hostname) => {
-  console.log('hey we are opening a tab');
   browser.tabs.create({
     url: `${SITE}/analyze/${hostname}`,
   })
