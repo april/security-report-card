@@ -1,6 +1,6 @@
 {
   "name": "security-report-card",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Uses the Mozilla Observatory to scan sites and determine how secure they are.",
   "license": "MPL-2.0",
   "scripts": {
