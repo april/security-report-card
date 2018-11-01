@@ -1,0 +1,74 @@
+body {
+    font-size: 18px;
+    padding: 12px 12px 4px;
+}
+
+h3#header {
+    border-bottom: solid 1px rgb(115, 115, 115);
+    margin: 0 32px 18px;
+    padding: 0 0 9px;
+    text-align: center;
+}
+
+.scan {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 6px;
+}
+
+span.origin {
+    font-size: 18px;
+    height: 36px;
+    line-height: 36px;
+}
+
+span.origin a {
+    text-decoration: none;
+}
+
+span.grade {
+    border-radius: 2px;
+    color: white;
+    display: inline-block;
+    font-size: 28px;
+    height: 36px;
+    line-height: 28px;
+    margin-left: 12px;
+    text-align: center;
+    width: 36px;
+}
+
+span.grade[data-grade="a"], span.grade[data-grade="true"] {
+    background: rgb(45, 136, 45);
+    border: solid 3px rgb(17, 102, 17);
+}
+
+span.grade[data-grade="b"] {
+    background: rgb(170, 170, 57);
+    border: solid 3px rgb(128, 128, 21);
+}
+
+span.grade[data-grade="c"] {
+    background: rgb(170, 112, 57);
+    border: solid 3px rgb(128, 73, 21);
+}
+
+span.grade[data-grade="d"], .grade-e {
+    background: rgb(101, 39, 112);
+    border: solid 3px rgb(74, 16, 84);
+}
+
+span.grade[data-grade="f"], span.grade[data-grade="false"] {
+    background: rgb(170, 57, 57);
+    border: solid 3px rgb(128, 21, 21);
+}
+
+span.grade[data-grade="?"] {
+    background-color: rgb(115, 115, 115);
+    background-image: url("spinner.svg");
+    border: solid 3px rgb(74, 74, 74);
+}
+
+span.grade img.spinner {
+    height: 100%;
+}

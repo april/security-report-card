@@ -1,9 +1,17 @@
-import * as httpObservatory from './httpObservatory';
+import * as httpObservatory from './http-observatory';
+import * as hstsPreload from './hsts-preload';
+import store from './redux/store';
 
+
+const initiateScans = (hostname, tabId) => {
+  hstsPreload.get(hostname);
+  httpObservatory.get(hostname, tabId);
+}
 
 // when we get the first response back from the website, initiate the scan
 browser.webRequest.onResponseStarted.addListener(
   async (details) => {
+    const hostname = new URL(details.url).hostname;
 
     // check to see if we're in a private tab - if we are, we simply disable
     // the icon and exit
@@ -19,18 +27,27 @@ browser.webRequest.onResponseStarted.addListener(
       tabId: details.tabId,
     });
 
-    httpObservatory.get(new URL(details.url).hostname, details.tabId);
+    // initiate all our scans
+    initiateScans(hostname, details.tabId);
   },
   {urls: ["http://*/*", "https://*/*"], types: ["main_frame"]}
 );
 
 
-// here is the handler for clicking the browserAction (aka the icon)
-browser.browserAction.onClicked.addListener(async (details) => {
-  // get the current tab hostname
-  if (details.url !== undefined) {
-    const hostname = new URL(details.url).hostname;
+browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  // kick things back if we're not in a child
+  if (sender.envType !== 'addon_child') {
+    sendResponse({});
+  }
 
-    await httpObservatory.open(hostname);
+  // todo: lock this down further
+  switch (request.action) {
+    case 'getStore':
+      sendResponse(store.getState());
+      break;
+    case 'initiateScans':  // popup initiating a scan
+      initiateScans(request.hostname, request.tabId);
+      sendResponse({});
+      break;
   }
 });

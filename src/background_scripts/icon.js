@@ -7,7 +7,7 @@ browser.runtime.getBrowserInfo().then((info) => {
 // this updates the icon to show the letter grade and score, as well as
 // sets the text that you get on hovering to the full Observatory result
 // object
-export const update = async (results, tabId) => {
+export const update = async (grade, tabId) => {
   const colors = {
     'A': {
       background: 'rgb(45, 136, 45)',
@@ -36,12 +36,12 @@ export const update = async (results, tabId) => {
   // disable it for <63
   let funcs = [
     browser.browserAction.setBadgeBackgroundColor({
-      color: colors[results.grade[0]].background,
+      color: colors[grade[0]].background,
       tabId: tabId,
     }),
 
     browser.browserAction.setBadgeText({
-      text: results.grade,
+      text: grade,
       tabId: tabId,
     }),
 
@@ -49,18 +49,13 @@ export const update = async (results, tabId) => {
       path: undefined,
       tabId: tabId,
     }),
-
-    browser.browserAction.setTitle({
-      title: `The full results are:\n\n${JSON.stringify(results, null, 2)}`,
-      tabId: tabId,
-    })
   ];
 
   // we can change the badge color if on FF63
   if (FF_MAJOR_VERSION >= 63) {
     funcs.push(
       browser.browserAction.setBadgeTextColor({
-        color: colors[results.grade[0]].color,
+        color: colors[grade[0]].color,
         tabId: tabId,
       })
     )

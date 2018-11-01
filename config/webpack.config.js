@@ -11,6 +11,7 @@ module.exports = {
   },
   entry: {
     'background': path.resolve(__dirname, '..', 'src', 'background_scripts', 'entry.js'),
+    'popup/index': path.resolve(__dirname, '..', 'src', 'popup', 'index.js')
   },
   mode: production ? 'production' : 'development',
   devtool: production ? undefined : 'source-map',
@@ -22,12 +23,18 @@ module.exports = {
         use: [{
           loader: 'babel-loader',
           options: {
-            'presets': [
-              ['env', {
+            babelrc: false,
+            plugins: [
+              '@babel/plugin-proposal-object-rest-spread'
+            ],
+            presets: [
+              ['@babel/preset-env', {
                 'targets': {
                   'firefox': 57
-                }
-              }]
+                },
+                'shippedProposals': true
+              }],
+              '@babel/preset-react'
             ]
           }
         }]
@@ -41,6 +48,11 @@ module.exports = {
       },
       {
         from: 'LICENSE.md'
+      },
+      {
+        from: 'src/popup/*.+(html|css|svg)',
+        to: 'popup/',
+        flatten: true
       },
       {
         from: 'src/icons/*.svg',
