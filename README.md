@@ -21,3 +21,10 @@ $ npm run-script compile
 And then in Firefox, go to -> Add-ons -> Extensions -> (Gear Icon) -> Debug Add-ons -> Load Temporary Add-on
 
 Navigate to `build/manifest.json` and it should start running immediately.
+
+Lastly, for a "production" release, simply run:
+
+```bash
+$ npm install
+$ NODE_ENV=production npm run build
+```
